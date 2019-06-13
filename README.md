@@ -19,8 +19,8 @@
 ### Development Environment
 - Ensure you have RabbitMQ installed and running on your computer
 - Ensure you have Postgresql installed and running on your computer
-- Clone this repository with `git clone https://github.com/proxiex/Syne-travel-api.git`
-- `cd Syne-travel-api`
+- Clone this repository with `git clone https://github.com/proxiex/travel_api.git`
+- `cd travel_api`
 - Install virtualenv `pip install virtualenv`
 - Create virtual env `python3 -m virtualenv venv`
 - Activate virtual env `source venv/bin/activate`

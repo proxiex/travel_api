@@ -14,6 +14,9 @@ class Airline(models.Model):
         verbose_name='Flight Numbrer'
     )
 
+    def __str__(self):
+        return '{} - {}'.format(self.name, self.flight_number)
+
 
 class Flight(models.Model):
     """
