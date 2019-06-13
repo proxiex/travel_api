@@ -12,8 +12,7 @@ class FlightModelTestCase(TestCase):
         self.booked_flight = CustomUser(
             username='proxie',
             email='proxie@me.com',
-            password="password"
-            )
+            password="password")
 
     def test_model_can_create_a_booking(self):
         """Test the flight model can create a flight."""

@@ -31,9 +31,10 @@ class LoginView(generics.CreateAPIView):
 
         if user is not None:
             login(request, user)
-            serializer_class = TokenSerializer(data={
-                "token": jwt_encode_handler(
-                    jwt_payload_handler(user))
+            serializer_class = TokenSerializer(
+                data={
+                    "token": jwt_encode_handler(
+                        jwt_payload_handler(user))
                 })
             serializer_class.is_valid()
             return Response(serializer_class.data)
