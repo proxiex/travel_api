@@ -1,3 +1,9 @@
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 
-# Create your models here.
+
+class CustomUser(AbstractUser):
+
+    password = models.CharField(blank=True, max_length=255)
+    gender = models.CharField(blank=True, max_length=255)
+    dob = models.CharField(blank=True, max_length=255)
