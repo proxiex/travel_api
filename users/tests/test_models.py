@@ -3,7 +3,7 @@ from django.test import TestCase
 from users.models import CustomUser
 
 
-class FlightModelTestCase(TestCase):
+class UserModelTestCase(TestCase):
     """This class defines the test suite for the flights model."""
 
     def setUp(self):
