@@ -20,6 +20,9 @@ class FlightViewSet(viewsets.ModelViewSet):
 
 
 class FlightBooking(generics.ListCreateAPIView):
+    """
+    Flight booking viewset.
+    """
     permission_classes = (IsAuthenticated,)
     queryset = models.Booking.objects.all()
     serializer_class = serializers.BookingSerializer

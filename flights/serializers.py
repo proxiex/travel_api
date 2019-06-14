@@ -23,6 +23,9 @@ class FlightSerializer(serializers.ModelSerializer):
 
 
 class BookingSerializer(serializers.ModelSerializer):
+    """
+    Booking serializer.
+    """
     class Meta:
         model = models.Booking
         fields = ('id', 'flight', 'user', 'booked',)

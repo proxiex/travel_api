@@ -5,6 +5,9 @@ User = get_user_model()
 
 
 class Airline(models.Model):
+    """
+    Airline model deffinatioon.
+    """
     name = models.CharField(
         max_length=100,
         verbose_name='Airline Name'
@@ -20,7 +23,7 @@ class Airline(models.Model):
 
 class Flight(models.Model):
     """
-     Flight model definition
+     Flight model definition.
     """
     from_location = models.CharField(
         max_length=100,
@@ -63,6 +66,9 @@ class Flight(models.Model):
 
 
 class Booking(models.Model):
+    """
+    Booking model defination.
+    """
     flight = models.ForeignKey(Flight, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     booked = models.BooleanField(default=False)
