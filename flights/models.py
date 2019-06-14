@@ -6,7 +6,7 @@ User = get_user_model()
 
 class Airline(models.Model):
     """
-    Airline model deffinatioon.
+    Airline model definition.
     """
     name = models.CharField(
         max_length=100,
@@ -67,7 +67,7 @@ class Flight(models.Model):
 
 class Booking(models.Model):
     """
-    Booking model defination.
+    Booking model definition.
     """
     flight = models.ForeignKey(Flight, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
