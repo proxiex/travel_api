@@ -20,3 +20,9 @@ class FlightSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(
                 'from and to location cannot be the same')
         return data
+
+
+class BookingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Booking
+        fields = ('id', 'flight', 'user', 'booked',)

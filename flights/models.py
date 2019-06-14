@@ -58,6 +58,9 @@ class Flight(models.Model):
     class Meta:
         ordering = ['created_at']
 
+    def __str__(self):
+        return 'From {} to {} - {}'.format(self.from_location, self.to_location, self.airline)
+
 
 class Booking(models.Model):
     flight = models.ForeignKey(Flight, on_delete=models.CASCADE)
@@ -71,3 +74,6 @@ class Booking(models.Model):
         auto_now=True,
         verbose_name='Updated At'
     )
+
+    def __str__(self):
+        return '{}'.format(self.flight)
