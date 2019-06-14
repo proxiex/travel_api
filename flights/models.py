@@ -5,6 +5,9 @@ User = get_user_model()
 
 
 class Airline(models.Model):
+    """
+    Airline model definition.
+    """
     name = models.CharField(
         max_length=100,
         verbose_name='Airline Name'
@@ -20,7 +23,7 @@ class Airline(models.Model):
 
 class Flight(models.Model):
     """
-     Flight model definition
+     Flight model definition.
     """
     from_location = models.CharField(
         max_length=100,
@@ -58,8 +61,14 @@ class Flight(models.Model):
     class Meta:
         ordering = ['created_at']
 
+    def __str__(self):
+        return 'From {} to {} - {}'.format(self.from_location, self.to_location, self.airline)
+
 
 class Booking(models.Model):
+    """
+    Booking model definition.
+    """
     flight = models.ForeignKey(Flight, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     booked = models.BooleanField(default=False)
@@ -71,3 +80,6 @@ class Booking(models.Model):
         auto_now=True,
         verbose_name='Updated At'
     )
+
+    def __str__(self):
+        return '{}'.format(self.flight)

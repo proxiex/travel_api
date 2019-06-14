@@ -34,5 +34,6 @@ urlpatterns = [
     path('api-token-auth/', obtain_jwt_token, name='obtain-token'),
     path('api/v1/', include('users.urls')),
     path('api/v1/', include(router.urls)),
+    path('api/v1/', include('flights.urls')),
     path('api-docs/', schema_view)
 ]
