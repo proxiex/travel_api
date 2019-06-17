@@ -53,10 +53,11 @@ class ProfileSerializer(serializers.ModelSerializer):
         """
         max_upload_size = settings.MAX_UPLOAD_SIZE
         _file = data['profile_img']
-        ext = os.path.splitext(_file.name)[1]
-        valid_extensions = ['.png', '.jpg', '.jpeg', '.webp']
-        if not ext.lower() in valid_extensions:
-            raise serializers.ValidationError(u'Unsupported file type.')
-        if _file.size > max_upload_size:
-            raise serializers.ValidationError(u'Image size must not exceed 2MB ')
-        return data
+        if _file:
+            ext = os.path.splitext(_file.name)[1]
+            valid_extensions = ['.png', '.jpg', '.jpeg', '.webp']
+            if not ext.lower() in valid_extensions:
+                raise serializers.ValidationError(u'Unsupported file type.')
+            if _file.size > max_upload_size:
+                raise serializers.ValidationError(u'Image size must not exceed 2MB ')
+            return data

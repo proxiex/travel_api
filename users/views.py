@@ -1,6 +1,7 @@
 from .models import CustomUser
 from django.contrib.auth import authenticate, login
 from rest_framework_jwt.settings import api_settings
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.parsers import FileUploadParser
 from rest_framework import permissions, generics, status
 from rest_framework.response import Response
@@ -81,6 +82,7 @@ class UserProfile(generics.CreateAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = ProfileSerializer
     parser_class = (FileUploadParser,)
+    permission_classes = (IsAuthenticated,)
 
     http_method_names = [u'get', u'put', u'patch', u'delete', u'head', u'options', u'trace']
 
@@ -106,8 +108,9 @@ class UserProfile(generics.CreateAPIView):
             profile_.update(dob=dob)
 
         if profile_img:
-            file = ProfileSerializer(data=dict(id=request.user.id, profile_img=profile_img))
-            file.is_valid(raise_exceptions=True)
+            user = CustomUser.objects.get(id=request.user.id)
+            file = ProfileSerializer(user, data={'profile_img': profile_img}, partial=True)
+            file.is_valid(raise_exception=True)
             file.save()
 
         queryset = CustomUser.objects.filter(id=request.user.id)
