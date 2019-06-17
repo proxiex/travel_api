@@ -27,7 +27,8 @@ class FlightBooking(generics.ListCreateAPIView):
     queryset = models.Booking.objects.all()
     serializer_class = serializers.BookingSerializer
 
-    def post(self, request, flight_pk=None):
+    def post(self, request):
+        flight_pk = request.data.get("flight", "")
         flight = get_object_or_404(models.Flight, pk=flight_pk)
         try:
             booked = models.Booking.objects.get(user=request.user, flight=flight)
@@ -49,4 +50,17 @@ class FlightBooking(generics.ListCreateAPIView):
         return Response(
             data=serializers.BookingSerializer(booking).data,
             status=status.HTTP_201_CREATED
+        )
+
+    def get(self, request):
+        if request.user.is_superuser:
+            booked_flights = models.Booking.objects.all()
+        else:
+            booked_flights = models.Booking.objects.filter(user=request.user)
+
+        serializer = serializers.BookingSerializer(booked_flights, many=True)
+        return Response(
+            {
+                "booked_flight": serializer.data
+            }
         )
