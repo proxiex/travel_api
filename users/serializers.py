@@ -20,3 +20,23 @@ class TokenSerializer(serializers.Serializer):
     token data serializer
     """
     token = serializers.CharField(max_length=255)
+
+
+class ProfileSerializer(serializers.ModelSerializer):
+    """
+      profile serializer
+    """
+    class Meta:
+        fields = [
+            'id',
+            'first_name',
+            'last_name',
+            'username',
+            'email',
+            'gender',
+            'dob',
+        ]
+
+        read_only_fields = ('email', 'username')
+
+        model = models.CustomUser
