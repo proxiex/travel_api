@@ -1,10 +1,12 @@
+import datetime
 from rest_framework import viewsets
 from rest_framework import generics, status
 from django.shortcuts import get_object_or_404
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from . import models, serializers, permissions
 from rest_framework_jwt.settings import api_settings
+from django.db.models import Q
 
 jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
 jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
@@ -60,7 +62,51 @@ class FlightBooking(generics.ListCreateAPIView):
 
         serializer = serializers.BookingSerializer(booked_flights, many=True)
         return Response(
-            {
+            data={
                 "booked_flight": serializer.data
-            }
+            })
+
+
+class SearchFlight(generics.ListCreateAPIView):
+    """
+    Search flight view set.
+    """
+    serializer_class = serializers.SearchSerializer
+    queryset = models.Flight.objects.all()
+    permission_classes = (AllowAny,)
+    http_method_names = [u'post', u'put', u'patch', u'delete', u'head', u'options', u'trace']
+
+    def post(self, request):
+        from_location = request.data.get('from_location')
+        to_location = request.data.get('to_location')
+        departure_time = request.data.get('departure_time')
+
+        if not from_location or not to_location or not departure_time:
+            return Response(
+                data={
+                    "error": "All data fields are required! - from_location, departure_time, to_location "
+                },
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        #  validate time format
+        try:
+            departure_time = datetime.datetime.strptime(departure_time, "%Y-%m-%d")
+            start_date = departure_time + datetime.timedelta(days=-2)
+            end_date = departure_time + datetime.timedelta(days=3)
+        except ValueError:
+            return Response(
+                data={
+                    "error": "Date-Time format is invalid: Format Y-m-d"
+                },
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        results = models.Flight.objects.filter(
+            Q(from_location__icontains=from_location) & Q(to_location__icontains=to_location) & Q(departure_time__range=[start_date, end_date])
+        )
+
+        return Response(
+            data=serializers.FlightSerializer(results, many=True).data,
+            status=status.HTTP_200_OK
         )

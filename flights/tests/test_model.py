@@ -36,7 +36,7 @@ class BookingtModelTestCase(TestCase):
     def test_model_can_create_a_booking(self):
         """Test the flight model can create a flight."""
         old_count = Booking.objects.count()
-        
+
         Booking.objects.create(
             flight=self.flight,
             user=self.user
