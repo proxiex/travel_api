@@ -79,7 +79,6 @@ class UserProfile(generics.CreateAPIView):
     """
     queryset = CustomUser.objects.all()
     serializer_class = ProfileSerializer
-    permission_classes = (permissions.AllowAny,)
 
     http_method_names = [u'get', u'put', u'patch', u'delete', u'head', u'options', u'trace']
 
