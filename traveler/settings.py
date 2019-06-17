@@ -58,8 +58,12 @@ MIDDLEWARE = [
 ]
 
 AUTH_USER_MODEL = 'users.CustomUser'
+
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
+
 ROOT_URLCONF = 'traveler.urls'
+
+MAX_UPLOAD_SIZE = 2621440
 
 TEMPLATES = [
     {
@@ -186,3 +190,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+MEDIA_URL = '/media/'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")

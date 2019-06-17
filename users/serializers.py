@@ -1,3 +1,5 @@
+import os
+from django.conf import settings
 from rest_framework import serializers
 from . import models
 
@@ -35,8 +37,26 @@ class ProfileSerializer(serializers.ModelSerializer):
             'email',
             'gender',
             'dob',
+            'profile_img'
         ]
 
         read_only_fields = ('email', 'username')
 
         model = models.CustomUser
+
+    def validate(self, data):
+        """
+        validate uploaded file
+
+        - maximum image size: 2MB
+        - only images
+        """
+        max_upload_size = settings.MAX_UPLOAD_SIZE
+        _file = data['profile_img']
+        ext = os.path.splitext(_file.name)[1]
+        valid_extensions = ['.png', '.jpg', '.jpeg', '.webp']
+        if not ext.lower() in valid_extensions:
+            raise serializers.ValidationError(u'Unsupported file type.')
+        if _file.size > max_upload_size:
+            raise serializers.ValidationError(u'Image size must not exceed 2MB ')
+        return data
