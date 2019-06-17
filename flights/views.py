@@ -1,4 +1,4 @@
-from datetime import datetime
+import datetime
 from rest_framework import viewsets
 from rest_framework import generics, status
 from django.shortcuts import get_object_or_404
@@ -77,9 +77,9 @@ class SearchFlight(generics.ListCreateAPIView):
     http_method_names = [u'post', u'put', u'patch', u'delete', u'head', u'options', u'trace']
 
     def post(self, request):
-        from_location = request.POST.get('from_location')
-        to_location = request.POST.get('to_location')
-        departure_time = request.POST.get('departure_time')
+        from_location = request.data.get('from_location')
+        to_location = request.data.get('to_location')
+        departure_time = request.data.get('departure_time')
 
         if not from_location or not to_location or not departure_time:
             return Response(
@@ -91,17 +91,19 @@ class SearchFlight(generics.ListCreateAPIView):
 
         #  validate time format
         try:
-            departure_time = datetime.strptime(departure_time, "%Y-%m-%dT%H:%M")
+            departure_time = datetime.datetime.strptime(departure_time, "%Y-%m-%d")
+            start_date = departure_time + datetime.timedelta(days=-2)
+            end_date = departure_time + datetime.timedelta(days=3)
         except ValueError:
             return Response(
                 data={
-                    "error": "Date-Time format is invalid: Format Y-m-dTH:M"
+                    "error": "Date-Time format is invalid: Format Y-m-d"
                 },
                 status=status.HTTP_400_BAD_REQUEST
             )
 
         results = models.Flight.objects.filter(
-            Q(from_location__icontains=from_location) & Q(to_location__icontains=to_location) & Q(departure_time__icontains=departure_time)
+            Q(from_location__icontains=from_location) & Q(to_location__icontains=to_location) & Q(departure_time__range=[start_date, end_date])
         )
 
         return Response(
