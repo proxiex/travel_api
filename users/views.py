@@ -4,7 +4,7 @@ from rest_framework_jwt.settings import api_settings
 from rest_framework import permissions, generics, status
 from rest_framework.response import Response
 
-from .serializers import TokenSerializer, UserSerializer
+from .serializers import TokenSerializer, UserSerializer, ProfileSerializer
 from users.helpers.decorators import validate_user_registration, validate_user_login
 
 jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
@@ -70,4 +70,49 @@ class RegisterView(generics.CreateAPIView):
         return Response(
             data=UserSerializer(new_user).data,
             status=status.HTTP_201_CREATED
+        )
+
+
+class UserProfile(generics.CreateAPIView):
+    """
+    User profile view set.
+    """
+    queryset = CustomUser.objects.all()
+    serializer_class = ProfileSerializer
+    permission_classes = (permissions.AllowAny,)
+
+    http_method_names = [u'get', u'put', u'patch', u'delete', u'head', u'options', u'trace']
+
+    def put(self, request):
+        first_name = request.data.get('first_name', '')
+        last_name = request.data.get('last_name', '')
+        gender = request.data.get('gender', '')
+        dob = request.data.get('dob', '')
+
+        profile_ = CustomUser.objects.filter(id=request.user.id)
+
+        if first_name:
+            profile_.update(first_name=first_name)
+
+        if last_name:
+            profile_.update(last_name=last_name)
+
+        if gender:
+            profile_.update(gender=gender)
+
+        if dob:
+            profile_.update(dob=dob)
+
+        queryset = CustomUser.objects.filter(id=request.user.id)
+        profile = ProfileSerializer(queryset, many=True)
+
+        return Response(
+            data=profile.data,
+            status=status.HTTP_200_OK
+        )
+
+    def get(self, request):
+        queryset = CustomUser.objects.filter(id=request.user.id)
+        return Response(
+            data=ProfileSerializer(queryset, many=True).data
         )
