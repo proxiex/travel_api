@@ -29,3 +29,21 @@ class BookingSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Booking
         fields = ('id', 'flight', 'user', 'booked',)
+
+
+class SearchSerializer(serializers.ModelSerializer):
+    """
+    Search Flight serializer.
+    """
+    class Meta:
+        model = models.Flight
+        fields = ('from_location', 'to_location', 'departure_time')
+
+    def validate(self, data):
+        """
+        validate to and from locations are not the same.
+        """
+        if data['to_location'] == data['from_location']:
+            raise serializers.ValidationError(
+                'from and to location cannot be the same')
+        return data
