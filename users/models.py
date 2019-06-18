@@ -7,3 +7,4 @@ class CustomUser(AbstractUser):
     password = models.CharField(blank=True, max_length=255)
     gender = models.CharField(blank=True, max_length=255)
     dob = models.CharField(blank=True, max_length=255)
+    profile_img = models.FileField(blank=False, null=True)
