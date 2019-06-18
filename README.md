@@ -24,6 +24,7 @@
 - Install virtualenv `pip install virtualenv`
 - Create virtual env `python3 -m virtualenv venv`
 - Activate virtual env `source venv/bin/activate`
+- make a copy of `.env.example` and edit as approriate to `.env` file
 - Install dependencies `pip install -r requirements.txt`
 - Start app `python manage.py runserver`
 - Navigate to `localhost:8000`
