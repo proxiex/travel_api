@@ -27,7 +27,7 @@ SECRET_KEY = 'w5v^qvzga+9onag3rk$m2nvsu5(&q1=my#(mn@xh-^(5ps$a)5'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG')
 
-ALLOWED_HOSTS = ['syne-travel.herokuapp.com']
+ALLOWED_HOSTS = ['syne-travel.herokuapp.com', '127.0.0.1']
 
 
 # Application definition
@@ -59,11 +59,23 @@ MIDDLEWARE = [
 
 AUTH_USER_MODEL = 'users.CustomUser'
 
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 
 ROOT_URLCONF = 'traveler.urls'
 
 MAX_UPLOAD_SIZE = 2621440
+
+EMAIL_USE_TLS = True
+
+EMAIL_HOST = 'smtp.gmail.com'
+
+EMAIL_PORT = 587
+
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 
 TEMPLATES = [
     {
