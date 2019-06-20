@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 import dj_database_url
+from celery.schedules import crontab
 import datetime
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -38,12 +39,14 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'django.contrib.humanize',
     'django.contrib.staticfiles',
     'whitenoise.runserver_nostatic',
     'rest_framework',
     'rest_framework_swagger',
     'users',
-    'flights'
+    'flights',
+    'django_celery_beat',
 ]
 
 MIDDLEWARE = [
@@ -82,6 +85,23 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+try:
+    CELERY_BROKER_URL = os.environ['REDIS_URL']
+except KeyError:
+    CELERY_BROKER_URL = 'redis://localhost'
+
+#: Only add pickle to this list if your broker is secured
+#: from unwanted access (see userguide/security.html)
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_RESULT_BACKEND = 'db+sqlite:///results.sqlite'
+CELERY_TASK_SERIALIZER = 'json'
+
+CELERY_BEAT_SCHEDULE = {
+    'test': {
+        'task': 'flights.tasks.email_flight_remainder_task',
+        'schedule': crontab(minute=0, hour=0),
+    }
+}
 
 TEMPLATES = [
     {
