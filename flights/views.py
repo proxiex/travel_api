@@ -7,6 +7,7 @@ from rest_framework.response import Response
 from . import models, serializers, permissions
 from rest_framework_jwt.settings import api_settings
 from django.db.models import Q
+from flights.helpers.email import email_flight_details
 
 jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
 jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
@@ -48,6 +49,8 @@ class FlightBooking(generics.ListCreateAPIView):
             flight=flight,
             user=request.user
         )
+
+        email_flight_details(booking)
 
         return Response(
             data=serializers.BookingSerializer(booking).data,

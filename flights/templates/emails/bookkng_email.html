@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Flight schedule</title>
+    {% load humanize %}
+    <style>
+        .main {
+            width: 40%;
+            margin: 0 auto;
+        }
+        h3 {
+            background: skyblue;
+            padding: 1%;
+        }
+        .footer {
+            background: skyblue;
+            padding: 1%;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="main">
+        <h3>Flight Details (Flight No {{ booking.flight.airline.fight_number }})</h3>
+        <p><strong>From: </strong>{{ booking.flight.from_location }}</p>
+        <p><strong>To: </strong>{{ booking.flight.to_location }}</p>
+        <p><strong>Departure Time: </strong>{{ booking.flight.departure_time }}</p>
+        <p><strong>Arrival Time: </strong>{{ booking.flight.arrival_time }}</p>
+        <p><strong>Cost: </strong>N {{ booking.flight.price|intcomma }}</p>
+        <div class="footer">
+            &copy; 2019 - Syne Inc Travels
+        </div>
+    </div>
+</body>
+</html>

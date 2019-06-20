@@ -39,13 +39,14 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'django.contrib.humanize',
     'django.contrib.staticfiles',
     'whitenoise.runserver_nostatic',
     'rest_framework',
     'rest_framework_swagger',
     'users',
     'flights',
-    # 'django_celery_beat',
+    'django_celery_beat',
 ]
 
 MIDDLEWARE = [
@@ -98,7 +99,7 @@ CELERY_TASK_SERIALIZER = 'json'
 CELERY_BEAT_SCHEDULE = {
     'test': {
         'task': 'flights.tasks.email_flight_remainder_task',
-        'schedule': crontab(),
+        'schedule': crontab(minute=0, hour=0),
     }
 }
 
