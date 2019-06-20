@@ -61,7 +61,6 @@ class FlightBooking(generics.ListCreateAPIView):
             booked_flights = models.Booking.objects.filter(user=request.user)
 
         serializer = serializers.BookingSerializer(booked_flights, many=True)
-        send_email()
 
         return Response(
             data={
