@@ -28,6 +28,8 @@
 - Install dependencies `pip install -r requirements.txt`
 - Start app `python manage.py runserver`
 - Navigate to `localhost:8000`
+- Start celery `celery -A flight_booking worker -B -l INFO`
+- Start celery beat `celery -A flight_booking beat -l INFO`
 
 ## Technologies
 - Python3/Django: A Python web framework
