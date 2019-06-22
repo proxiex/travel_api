@@ -49,3 +49,17 @@ def email_flight_details(booking):
 
     msg.attach_alternative(html_content, "text/html")
     msg.send()
+
+
+def email_booking_report(user, end_date, start_date, file):
+    """
+    Email booking report to user.
+    """
+
+    subject, from_email, to = 'Booking Report', 'noreply@syneinc.com', user.email
+    text_content = f'Pls find attached your booking report from {start_date} to {end_date}'
+    html_content = f'<p>Pls find attached your booking report from {start_date} to {end_date}.</p>'
+    msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+    msg.attach_file(file)
+    msg.attach_alternative(html_content, "text/html")
+    msg.send()
