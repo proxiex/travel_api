@@ -10,6 +10,10 @@ import csv
 
 @start_backgroun_job
 def bg_job(start_date, end_date, user):
+    """
+    Runs background job.
+    """
+
     bookings = Booking.objects.filter(
         user=user,
         created_at__gte=start_date,
@@ -35,6 +39,10 @@ def bg_job(start_date, end_date, user):
 @api_view(['GET'])
 @permission_classes((IsAuthenticated, ))
 def report(request):
+    """
+    Booking Report Viewset.
+    """
+
     start_date = request.query_params.get('start_date')
     end_date = request.query_params.get('end_date')
 
