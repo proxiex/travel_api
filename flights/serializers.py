@@ -28,7 +28,10 @@ class BookingSerializer(serializers.ModelSerializer):
     """
     class Meta:
         model = models.Booking
-        fields = ('id', 'flight', 'user', 'booked',)
+        read_only_fields = ('created_at', 'updated_at')
+        fields = (
+            'id', 'flight', 'user', 'booked',
+            'created_at', 'updated_at')
 
 
 class SearchSerializer(serializers.ModelSerializer):
