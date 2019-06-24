@@ -1,7 +1,3 @@
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.response import Response
-from rest_framework.views import status
 from flights.helpers.decorators import start_backgroun_job
 from .models import Booking
 from .helpers.email import email_booking_report
@@ -34,28 +30,3 @@ def bg_job(start_date, end_date, user):
             ])
 
     email_booking_report(user, start_date, end_date, file_name)
-
-
-@api_view(['GET'])
-@permission_classes((IsAuthenticated, ))
-def report(request):
-    """
-    Booking Report Viewset.
-    """
-
-    start_date = request.query_params.get('start_date')
-    end_date = request.query_params.get('end_date')
-
-    if start_date and end_date:
-        bg_job(start_date, end_date, request.user)
-
-        return Response(
-            data={'message': 'Your request is processing, once your report is ready you will get an email notification!'},
-            status=status.HTTP_200_OK)
-    else:
-        return Response(
-            data={
-                "error": "Start and End date are requried! e.g?end_date=2019-06-22&start_date=2018-06-22"
-            },
-            status=status.HTTP_400_BAD_REQUEST
-        )

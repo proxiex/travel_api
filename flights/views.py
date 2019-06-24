@@ -4,10 +4,12 @@ from rest_framework import generics, status
 from django.shortcuts import get_object_or_404
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
-from . import models, serializers, permissions
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework_jwt.settings import api_settings
 from django.db.models import Q
 from flights.helpers.email import email_flight_details
+from flights.background_jobs import bg_job
+from . import models, serializers, permissions
 
 jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
 jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
@@ -113,4 +115,29 @@ class SearchFlight(generics.ListCreateAPIView):
         return Response(
             data=serializers.FlightSerializer(results, many=True).data,
             status=status.HTTP_200_OK
+        )
+
+
+@api_view(['GET'])
+@permission_classes((IsAuthenticated, ))
+def report(request):
+    """
+    Booking Report Viewset.
+    """
+
+    start_date = request.query_params.get('start_date')
+    end_date = request.query_params.get('end_date')
+
+    if start_date and end_date:
+        bg_job(start_date, end_date, request.user)
+
+        return Response(
+            data={'message': 'Your request is processing, once your report is ready you will get an email notification!'},
+            status=status.HTTP_200_OK)
+    else:
+        return Response(
+            data={
+                "error": "Start and End date are requried! e.g?end_date=2019-06-22&start_date=2018-06-22"
+            },
+            status=status.HTTP_400_BAD_REQUEST
         )

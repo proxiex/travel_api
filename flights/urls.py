@@ -1,6 +1,5 @@
 from django.urls import path
-from .views import FlightBooking, SearchFlight
-from .background_jobs import report
+from .views import FlightBooking, SearchFlight, report
 
 
 urlpatterns = [
