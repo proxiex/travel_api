@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% load humanize %}
+
+{% block title %} Welcome to Syne Travels {% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+    <div class="jumbotron" style="padding: 1rem 2rem;">
+        <div class="row">
+            <div id="details">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="row" id="result-date">
+                </div>
+            </div>
+        </div>
+
+    </div>
+  
+    {% include 'partials/_footer.html' %}
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const to_location = urlParams.get('to_location');
+        const from_location = urlParams.get('from_location');
+        const departure_time = urlParams.get('departure_time');
+
+        if(to_location !== '' && from_location !== '' && departure_time !== ''){
+            data = {
+                from_location,
+                to_location,
+                departure_time
+            };
+        
+            fetch(baseUrl, {
+              credentials: 'same-origin',
+              method: 'POST',
+              body: JSON.stringify(data),
+              headers: new Headers({
+                'Content-Type': 'application/json'
+              }),
+            })
+            .then(response => response.json())
+            .then(data => renderResult(from_location, to_location, departure_time, data))
+            .catch(error => console.error(error))
+        } else {
+            window.location = '/'
+        }
+
+        function renderResult(from_location, to_location, departure_time, reslut) {
+            searchResults = ''
+            details = `
+                <h5>Search Result</h5>
+                <h6>Departure</h6>
+                <h6>${from_location} -> ${to_location}</h6>
+            `
+            for(let i = 0; i < reslut.length; i++) {
+                console.log(reslut[i])
+                res = reslut[i]
+                dep_time = new Date(res.departure_time)
+                arr_time = new Date(res.arrival_time)
+                searchResults += `
+                    <div class="card" style="width: 15rem;">
+                        <div class="card-body">
+                            <h5 class="card-title">N${res.price}</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">Depature Time:<br> ${dep_time.toString().substring(4, 25)}</h6><br>
+                            <h6 class="card-subtitle mb-2 text-muted">Arrival Time: <br>${arr_time.toString().substring(4, 25)}</h6>
+                            <a href="../booking/?flight=${res.id}" class="card-link">Book Flight</a>
+                        </div>
+                    </div>`
+                
+                document.getElementById('result-date').innerHTML = searchResults;
+                document.getElementById('details').innerHTML = details;
+            }
+        }
+    </script>
+  </div>
+{% endblock %}
