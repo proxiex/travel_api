@@ -32,6 +32,7 @@ schema_view = get_schema_view(
     renderer_classes=[OpenAPIRenderer, SwaggerUIRenderer],)
 
 urlpatterns = [
+    path('', include('frontend.urls')),
     path('admin/', admin.site.urls),
     path('api-token-auth/', obtain_jwt_token, name='obtain-token'),
     path('api/v1/', include('users.urls')),
