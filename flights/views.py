@@ -1,3 +1,5 @@
+"""Flight views."""
+
 import datetime
 from rest_framework import viewsets
 from rest_framework import generics, status
@@ -16,23 +18,22 @@ jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
 
 
 class FlightViewSet(viewsets.ModelViewSet):
-    """
-    Flight model viewSet
-    """
+    """Flight model viewSet."""
+
     serializer_class = serializers.FlightSerializer
     queryset = models.Flight.objects.all()
     permission_classes = [permissions.IsSuperUserOrReadOnly, ]
 
 
 class FlightBooking(generics.ListCreateAPIView):
-    """
-    Flight booking viewset.
-    """
+    """Flight booking viewset."""
+
     permission_classes = (IsAuthenticated,)
     queryset = models.Booking.objects.all()
     serializer_class = serializers.BookingSerializer
 
     def post(self, request):
+        """Post view."""
         flight_pk = request.data.get("flight", "")
         flight = get_object_or_404(models.Flight, pk=flight_pk)
         try:
@@ -60,6 +61,7 @@ class FlightBooking(generics.ListCreateAPIView):
         )
 
     def get(self, request):
+        """Get view."""
         if request.user.is_superuser:
             booked_flights = models.Booking.objects.all()
         else:
@@ -74,15 +76,15 @@ class FlightBooking(generics.ListCreateAPIView):
 
 
 class SearchFlight(generics.ListCreateAPIView):
-    """
-    Search flight view set.
-    """
+    """Search flight view set."""
+
     serializer_class = serializers.SearchSerializer
     queryset = models.Flight.objects.all()
     permission_classes = (AllowAny,)
     http_method_names = [u'post', u'put', u'patch', u'delete', u'head', u'options', u'trace']
 
     def post(self, request):
+        """Post view."""
         from_location = request.data.get('from_location')
         to_location = request.data.get('to_location')
         departure_time = request.data.get('departure_time')
@@ -121,10 +123,7 @@ class SearchFlight(generics.ListCreateAPIView):
 @api_view(['GET'])
 @permission_classes((IsAuthenticated, ))
 def report(request):
-    """
-    Booking Report Viewset.
-    """
-
+    """Booking Report Viewset."""
     start_date = request.query_params.get('start_date')
     end_date = request.query_params.get('end_date')
 

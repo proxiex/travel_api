@@ -1,3 +1,5 @@
+"""Flight bkackground job module."""
+
 from flights.helpers.decorators import start_backgroun_job
 from .models import Booking
 from .helpers.email import email_booking_report
@@ -6,10 +8,7 @@ import csv
 
 @start_backgroun_job
 def bg_job(start_date, end_date, user):
-    """
-    Runs background job.
-    """
-
+    """Background job."""
     bookings = Booking.objects.filter(
         user=user,
         created_at__gte=start_date,

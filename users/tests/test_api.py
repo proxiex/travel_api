@@ -1,14 +1,17 @@
+"""Test API."""
+
 from rest_framework.test import APITestCase, APIClient
 from rest_framework import status
 import json
 
 
 class UserAuthTest(APITestCase):
+    """User Auth API."""
+
     client = APIClient()
 
     def test_register_user_fail(self):
         """Test user registration error."""
-
         response = self.client.post(
             '/api/v1/register/',
             data=json.dumps({"username": "", "password": ""}),
@@ -18,7 +21,6 @@ class UserAuthTest(APITestCase):
 
     def test_register_user_invalid_email(self):
         """Test user registration with invalid email address."""
-
         response = self.client.post(
             '/api/v1/register/',
             data=json.dumps({"username": "email", "password": "password!34"}),
@@ -29,7 +31,6 @@ class UserAuthTest(APITestCase):
 
     def test_register_user(self):
         """Test user registration."""
-
         response = self.client.post(
             '/api/v1/register/',
             data=json.dumps({
@@ -42,7 +43,6 @@ class UserAuthTest(APITestCase):
 
     def test_login_user_fail(self):
         """Test user login error."""
-
         response = self.client.post(
             '/api/v1/login/',
             data=json.dumps({"username": "", "password": ""}),
@@ -52,7 +52,6 @@ class UserAuthTest(APITestCase):
 
     def test_login_user(self):
         """Test user login."""
-
         self.client.post(
             '/api/v1/register/',
             data=json.dumps({

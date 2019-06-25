@@ -1,3 +1,5 @@
+"""Test modal."""
+
 from django.test import TestCase
 from flights.models import Airline, Flight, Booking
 from users.models import CustomUser

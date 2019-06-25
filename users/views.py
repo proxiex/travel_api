@@ -1,3 +1,5 @@
+"""Users views."""
+
 from .models import CustomUser
 from django.contrib.auth import authenticate, login
 from rest_framework_jwt.settings import api_settings
@@ -14,8 +16,7 @@ jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
 
 
 class LoginView(generics.CreateAPIView):
-    """
-    Login view:
+    """Login view.
 
     POST auth/login/
     """
@@ -26,6 +27,7 @@ class LoginView(generics.CreateAPIView):
 
     @validate_user_login
     def post(self, request, *args, **kwargs):
+        """Post view."""
         username = request.data.get("username", "")
         password = request.data.get("password", "")
 
@@ -45,16 +47,17 @@ class LoginView(generics.CreateAPIView):
 
 
 class RegisterView(generics.CreateAPIView):
-    """
-    Registration View:
+    """Registration View.
 
     POST /register/
     """
+
     permission_classes = (permissions.AllowAny,)
     serializer_class = UserSerializer
 
     @validate_user_registration
     def post(self, request, *args, **kwargs):
+        """Post view."""
         username = request.data.get("username", "")
         password = request.data.get("password", "")
         email = request.data.get("email", "")
@@ -76,9 +79,8 @@ class RegisterView(generics.CreateAPIView):
 
 
 class UserProfile(generics.CreateAPIView):
-    """
-    User profile view set.
-    """
+    """User profile view set."""
+
     queryset = CustomUser.objects.all()
     serializer_class = ProfileSerializer
     parser_class = (FileUploadParser,)
@@ -87,6 +89,7 @@ class UserProfile(generics.CreateAPIView):
     http_method_names = [u'get', u'put', u'patch', u'delete', u'head', u'options', u'trace']
 
     def put(self, request):
+        """Put view."""
         first_name = request.data.get('first_name', '')
         last_name = request.data.get('last_name', '')
         gender = request.data.get('gender', '')
@@ -122,6 +125,7 @@ class UserProfile(generics.CreateAPIView):
         )
 
     def get(self, request):
+        """Get view."""
         queryset = CustomUser.objects.filter(id=request.user.id)
         return Response(
             data=ProfileSerializer(queryset, many=True).data

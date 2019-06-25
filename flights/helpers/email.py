@@ -1,3 +1,5 @@
+"""Email module."""
+
 from django.utils import timezone
 from datetime import timedelta
 from django.contrib.auth import get_user_model
@@ -10,9 +12,7 @@ User = get_user_model()
 
 
 def email_ticket_reminder():
-    """
-    Email Flight ticket
-    """
+    """Email Flight ticket."""
     date_time = timezone.now() + timedelta(days=1)
     users = User.objects.filter(
         booking__flight__departure_time__lte=date_time,
@@ -39,9 +39,7 @@ def email_ticket_reminder():
 
 
 def email_flight_details(booking):
-    """
-    Email Fight details.
-    """
+    """Email Fight details."""
     html_content = render_to_string('emails/bookkng_email.html', {'booking': booking})
     text_content = strip_tags(html_content)
 
@@ -52,10 +50,7 @@ def email_flight_details(booking):
 
 
 def email_booking_report(user, end_date, start_date, file):
-    """
-    Email booking report to user.
-    """
-
+    """Email booking report to user."""
     subject, from_email, to = 'Booking Report', 'noreply@syneinc.com', user.email
     text_content = f'Pls find attached your booking report from {start_date} to {end_date}'
     html_content = f'<p>Pls find attached your booking report from {start_date} to {end_date}.</p>'

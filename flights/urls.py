@@ -1,3 +1,5 @@
+"""Flights urls."""
+
 from django.urls import path
 from .views import FlightBooking, SearchFlight, report
 
