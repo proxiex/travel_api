@@ -1,3 +1,5 @@
+"""User decorators."""
+
 import re
 from rest_framework.response import Response
 from rest_framework.views import status
@@ -5,6 +7,7 @@ from rest_framework.views import status
 
 def validate_password(password):
     """Validate Password.
+
     :params: password
     :returns: Boolean
     """
@@ -15,6 +18,7 @@ def validate_password(password):
 
 def validate_email(email):
     """Validate Email.
+
     :params: email
     :returns: Boolean
     """
@@ -25,6 +29,7 @@ def validate_email(email):
 
 def validate_user_registration(fn):
     """Validate user registration data decorator.
+
     :returns: fn
     """
     def decorator(*args, **kwargs):
@@ -61,6 +66,7 @@ def validate_user_registration(fn):
 
 def validate_user_login(fn):
     """Validate user login data decorator.
+
     :returns: fn
     """
     def decorator(*args, **kwargs):

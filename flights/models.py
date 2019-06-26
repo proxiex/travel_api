@@ -1,3 +1,5 @@
+"""Flights module."""
+
 from django.db import models
 from django.contrib.auth import get_user_model
 
@@ -5,9 +7,8 @@ User = get_user_model()
 
 
 class Airline(models.Model):
-    """
-    Airline model definition.
-    """
+    """Airline model definition."""
+
     name = models.CharField(
         max_length=100,
         verbose_name='Airline Name'
@@ -18,13 +19,13 @@ class Airline(models.Model):
     )
 
     def __str__(self):
+        """Magic method."""
         return '{} - {}'.format(self.name, self.flight_number)
 
 
 class Flight(models.Model):
-    """
-     Flight model definition.
-    """
+    """Flight model definition."""
+
     from_location = models.CharField(
         max_length=100,
         verbose_name='From Location'
@@ -59,16 +60,18 @@ class Flight(models.Model):
     )
 
     class Meta:
+        """Meta class."""
+
         ordering = ['created_at']
 
     def __str__(self):
+        """Magic method."""
         return 'From {} to {} - {}'.format(self.from_location, self.to_location, self.airline)
 
 
 class Booking(models.Model):
-    """
-    Booking model definition.
-    """
+    """Booking model definition."""
+
     flight = models.ForeignKey(Flight, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     booked = models.BooleanField(default=False)
@@ -82,4 +85,5 @@ class Booking(models.Model):
     )
 
     def __str__(self):
+        """Magic method."""
         return '{}'.format(self.flight)

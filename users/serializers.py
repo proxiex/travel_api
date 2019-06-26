@@ -1,3 +1,5 @@
+"""Users serializer."""
+
 import os
 from django.conf import settings
 from rest_framework import serializers
@@ -5,7 +7,11 @@ from . import models
 
 
 class UserSerializer(serializers.ModelSerializer):
+    """Users serialzers class."""
+
     class Meta:
+        """Meta class."""
+
         extra_kwargs = {
             'password': {'write_only': True}
         }
@@ -18,17 +24,17 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class TokenSerializer(serializers.Serializer):
-    """
-    token data serializer
-    """
+    """Token data serializer."""
+
     token = serializers.CharField(max_length=255)
 
 
 class ProfileSerializer(serializers.ModelSerializer):
-    """
-      profile serializer
-    """
+    """Profile serializer."""
+
     class Meta:
+        """Meta class."""
+
         fields = [
             'id',
             'first_name',
@@ -45,8 +51,7 @@ class ProfileSerializer(serializers.ModelSerializer):
         model = models.CustomUser
 
     def validate(self, data):
-        """
-        validate uploaded file
+        """Validate uploaded file.
 
         - maximum image size: 2MB
         - only images
