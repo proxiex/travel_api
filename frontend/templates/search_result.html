@@ -15,7 +15,7 @@
         </div>
         <div class="row">
             <div class="col">
-                <div class="row" id="result-date">
+                <div class="row" id="result-data">
                 </div>
             </div>
         </div>
@@ -45,7 +45,17 @@
               }),
             })
             .then(response => response.json())
-            .then(data => renderResult(from_location, to_location, departure_time, data))
+            .then((data) => {
+                if (data.length > 0){
+                    renderResult(from_location, to_location, departure_time, data)
+                } else {
+                    noResult = `
+                    <h5>No Search Result fround for ${from_location} -> ${to_location} </h5>
+                    `
+
+                    document.getElementById('result-data').innerHTML = noResult;
+                }
+            })
             .catch(error => console.error(error))
         } else {
             window.location = '/'
@@ -73,7 +83,7 @@
                         </div>
                     </div>`
                 
-                document.getElementById('result-date').innerHTML = searchResults;
+                document.getElementById('result-data').innerHTML = searchResults;
                 document.getElementById('details').innerHTML = details;
             }
         }

@@ -1,3 +1,5 @@
+"""Frontend urls."""
+
 from django.urls import path
 from .views import index, search_result
 
