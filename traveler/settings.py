@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'users',
     'flights',
     'django_celery_beat',
+    'django_nose',
 ]
 
 MIDDLEWARE = [
@@ -140,6 +141,16 @@ REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "PAGE_SIZE": 10,
 }
+
+# Use nose to run all tests
+TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+
+# Tell nose to measure coverage on the 'foo' and 'bar' apps
+NOSE_ARGS = [
+    '--with-coverage',
+    '--cover-html',
+    '--cover-package=flights,users',
+]
 
 JWT_AUTH = {
     'JWT_ENCODE_HANDLER':
