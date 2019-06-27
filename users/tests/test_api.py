@@ -27,7 +27,7 @@ class UserAuthTest(APITestCase):
             content_type="application/json"
         )
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertIn("message", response.data)
+        self.assertIn("error", response.data)
 
     def test_register_user(self):
         """Test user registration."""
