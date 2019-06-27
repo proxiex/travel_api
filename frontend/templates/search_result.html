@@ -45,7 +45,7 @@
                     <h5>No Search Result fround for ${from_location} -> ${to_location} </h5>
                     `
 
-                    _('result-data').innerHTML = noResult;
+                    elmById('result-data').innerHTML = noResult;
                 }
             })
             .catch(error => console.error(error))
@@ -74,8 +74,8 @@
                         </div>
                     </div>`
                 
-                _('result-data').innerHTML = searchResults;
-                _('details').innerHTML = details;
+                elmById('result-data').innerHTML = searchResults;
+                elmById('details').innerHTML = details;
             }
         }
     </script>

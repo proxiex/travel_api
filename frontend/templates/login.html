@@ -32,13 +32,13 @@
     }
 
     const login = () => {
-        const username = _('username').value
-        const password = _('password').value
-        
+        const username = elmById('username').value
+        const password = elmById('password').value
+        ƒ
         post(baseUrl+'login/?format=json', {username, password}).then((data) => {
             if(data.error) {
-                _('errorMgs').innerHTML = data.error
-                _('errorMgs').style.display = 'block'
+                elmById('errorMgs').innerHTML = data.error
+                elmById('errorMgs').style.display = 'block'
 
             } else {
                 window.localStorage.setItem('userToken', data.token)

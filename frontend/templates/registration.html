@@ -39,19 +39,19 @@
     }
 
     const register = () => {
-        const email = _('email').value
-        const username = _('username').value
-        const password = _('password').value
+        const email = elmById('email').value
+        const username = elmById('username').value
+        const password = elmById('password').value
         
         post(baseUrl+'register/?format=json', {email, username, password}).then((data) => {
             if(data.error) {
-                _('errorMgs').innerHTML = data.error
-                _('errorMgs').style.display = 'block'
+                elmById('errorMgs').innerHTML = data.error
+                elmById('errorMgs').style.display = 'block'
 
             } else {
-                _('errorMgs').style.display = 'none'
-                _('successMsg').innerHTML = 'Your Registration was succesful, pleas login.'
-                _('successMsg').style.display = 'block'
+                elmById('errorMgs').style.display = 'none'
+                elmById('successMsg').innerHTML = 'Your Registration was succesful, pleas login.'
+                elmById('successMsg').style.display = 'block'
 
                 setTimeout(function(){
                     window.location = '../login/'

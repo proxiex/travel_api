@@ -17,7 +17,7 @@ const get = (url, data) => fetch(url, {
     }),
 }).then(response => response.json())
 
-const _ = (id) => {
+const elmById = (id) => {
     return document.getElementById(id)
 }
 
