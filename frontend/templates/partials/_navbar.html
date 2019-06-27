@@ -1,9 +1,27 @@
+{% load static %}
+
 <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
     <h5 class="my-0 mr-md-auto font-weight-normal">Syne Travels</h5>
     <nav class="my-2 my-md-0 mr-md-3">
         <a class="p-2 text-dark" href="/">Home</a>
     </nav>
-    <a class="btn btn-outline-primary" href="#">Sign up</a>
-    &nbsp;
-    <a class="btn btn-outline-primary" href="#">Login </a>
+    <span id="notLoggedIn"></span>
+    <span id="loggedin"></span>
 </div>
+
+<script>
+    const notLoggedIn = `
+    <a class="btn btn-outline-primary" href="{% url 'registration' %}">Register</a>
+    &nbsp;
+    <a class="btn btn-outline-primary" href="{% url 'login' %}">Login </a>
+    `
+    const loggedIn = `
+        <a class="p-2 text-dark" onclick="logout();" href="#">Logout</a>
+    `
+    if(!isLogedIn()) {
+        _('notLoggedIn').innerHTML = notLoggedIn;
+    } else {
+        _('notLoggedIn').innerHTML = loggedIn;
+    }
+
+</script>

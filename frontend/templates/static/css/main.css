@@ -13,6 +13,12 @@
     }
   }
 
+  @media (min-width: 768px) {
+    .bd-placeholder-img-lg {
+      font-size: 3.5rem;
+    }
+  }
+
   html {
     font-size: 14px;
   }
@@ -32,4 +38,8 @@
   
   .card-deck .card {
     min-width: 220px;
+  }
+
+  #errorMgs {
+    color: red
   }

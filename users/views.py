@@ -65,7 +65,7 @@ class RegisterView(generics.CreateAPIView):
         if not username and not password and not email:
             return Response(
                 data={
-                    "message": "username, password and email is required to register a user"
+                    "error": "username, password and email is required to register a user"
                 },
                 status=status.HTTP_400_BAD_REQUEST
             )

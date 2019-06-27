@@ -41,7 +41,7 @@ def validate_user_registration(fn):
         if not username and not email and not password:
             return Response(
                 data={
-                    "message": "All data fields are required. Email, Username and Password",
+                    "error": "All data fields are required. Email, Username and Password",
                 },
                 status=status.HTTP_400_BAD_REQUEST
             )
@@ -49,14 +49,14 @@ def validate_user_registration(fn):
         if not validate_email(email):
             return Response(
                 data={
-                    "message": "Please enter a valid email"
+                    "error": "Please enter a valid email"
                 },
                 status=status.HTTP_400_BAD_REQUEST
             )
         if not validate_password(password):
             return Response(
                 data={
-                    "message": "Password must be at least six characters, must be alphanumeric character and must contain at least one special character"
+                    "error": "Password must be at least six characters, must be alphanumeric character and must contain at least one special character"
                 },
                 status=status.HTTP_400_BAD_REQUEST
             )
@@ -76,14 +76,14 @@ def validate_user_login(fn):
         if not username:
             return Response(
                 data={
-                    "message": "Username is required"
+                    "error": "Username is required"
                 },
                 status=status.HTTP_400_BAD_REQUEST
             )
         if not password:
             return Response(
                 data={
-                    "message": "Password is required"
+                    "error": "Password is required"
                 },
                 status=status.HTTP_400_BAD_REQUEST
             )

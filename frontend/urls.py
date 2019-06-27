@@ -1,10 +1,12 @@
 """Frontend urls."""
 
 from django.urls import path
-from .views import index, search_result
+import frontend.views as views
 
 
 urlpatterns = [
-    path('', index, name="index"),
-    path('result/', search_result, name="search result"),
+    path('', views.index, name="index"),
+    path('result/', views.search_result, name="search result"),
+    path('login/', views.login, name="login"),
+    path('registration/', views.registration, name="registration"),
 ]
