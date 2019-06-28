@@ -34,7 +34,6 @@
     const login = () => {
         const username = elmById('username').value
         const password = elmById('password').value
-        ƒ
         post(baseUrl+'login/?format=json', {username, password}).then((data) => {
             if(data.error) {
                 elmById('errorMgs').innerHTML = data.error
