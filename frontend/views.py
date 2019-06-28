@@ -11,3 +11,13 @@ def index(request):
 def search_result(request):
     """Search page."""
     return render(request, 'search_result.html')
+
+
+def login(request):
+    """Login page."""
+    return render(request, 'login.html')
+
+
+def registration(request):
+    """Registration page."""
+    return render(request, 'registration.html')

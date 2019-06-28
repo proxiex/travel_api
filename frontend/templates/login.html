@@ -1,0 +1,52 @@
+
+{% extends 'base.html' %}
+
+{% load humanize %}
+
+{% load static %}
+
+{% block title %} Login form. {% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/form.css' %}">
+<div class="container">
+
+    <form class="form-signin" onsubmit="return login();">
+        <h1 class="h3 mb-3 font-weight-normal">Please Login</h1>
+        <div class="alert alert-danger" id="errorMgs" style="display: none" role="alert">
+        </div>
+        <label for="username" class="sr-only">Username</label>
+        <input type="text" id="username" class="form-control" placeholder="Username" required autofocus>
+        <label for="Password" class="sr-only">Password</label>
+        <input type="password" id="password" class="form-control" placeholder="Password" required>
+        <br>
+        <br>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
+    </form>
+    {% include 'partials/_footer.html' %}
+</div>
+
+<script>
+    if (isLogedIn()) {
+        window.location = '../profile/'
+    }
+
+    const login = () => {
+        const username = elmById('username').value
+        const password = elmById('password').value
+        ƒ
+        post(baseUrl+'login/?format=json', {username, password}).then((data) => {
+            if(data.error) {
+                elmById('errorMgs').innerHTML = data.error
+                elmById('errorMgs').style.display = 'block'
+
+            } else {
+                window.localStorage.setItem('userToken', data.token)
+                window.location = '../profile/'
+            }
+        }).catch(error => console.log(error))
+        
+        return false;
+    }
+</script>
+{% endblock %}
