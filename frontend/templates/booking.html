@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% load humanize %}
+
+{% block title %} Book flight {% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <h3>My booked flights</h3>
+
+        <table class="table table-striped table-dark" id='booking-table'>
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">From</th>
+                    <th scope="col">To</th>
+                    <th scope="col">Departure time</th>
+                    <th scope="col">Arival time</th>
+                    <th scope="col">Price</th>
+                  </tr>
+                </thead>
+                <tbody id='booking'>
+                  
+                </tbody>
+              </table>
+  
+    {% include 'partials/_footer.html' %}
+    <script>
+
+        const token = isLogedIn();
+
+        if (!token) {
+            alert('Please login to continue!');
+            window.location = '../login/';
+        };
+
+       get(baseUrl + 'booking/?format=json', token).then((data) => {
+            if (data.booked_flight.length > 0){
+                let  myBookings = ''
+                data.booked_flight.forEach((item, index) => {
+                    get(baseUrl + 'flights/' + item.flight + '/?format=json', token).then(flight => {
+                        dep_time = new Date(flight.departure_time)
+                        arr_time = new Date(flight.arrival_time)
+                        myBookings += `
+                        <tr>
+                            <th scope="row">${index + 1}</th>
+                            <td>${flight.from_location}</td>
+                            <td>${flight.to_location}</td>
+                            <td>${dep_time.toString().substring(4, 25)}</td>
+                            <td>${arr_time.toString().substring(4, 25)}</td>
+                            <td>N ${flight.price}</td>
+                        </tr>
+                        `
+                        elmById('booking').innerHTML = myBookings;
+                    });
+
+                })
+            } else {
+                myBookings = `<div style='padding: 1%;'><h3>You have not booked any flights yet</h3></div>`
+                elmById('booking-table').innerHTML = myBookings;
+            }
+       });
+        
+    </script>
+  </div>
+{% endblock %}

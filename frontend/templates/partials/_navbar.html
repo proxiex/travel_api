@@ -16,6 +16,7 @@
     <a class="btn btn-outline-primary" href="{% url 'login' %}">Login </a>
     `
     const loggedIn = `
+        <a class="p-2 text-dark" href="{% url 'booking' %}">Booking</a>
         <a class="p-2 text-dark" onclick="logout();" href="#">Logout</a>
     `
     if(!isLogedIn()) {
