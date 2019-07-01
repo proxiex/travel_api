@@ -12,8 +12,50 @@
 <div class="container">
         <div id="content">
         </div>
+        <!-- <button type="button" class="btn btn-primary" >
+                Launch demo modal
+              </button> -->
     {% include 'partials/_footer.html' %}
 </div>
+
+<!-- Button trigger modal -->
+      <!-- Modal -->
+      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Update Profile</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+                <div class="modal-body">
+                    <form class="form-signin" onsubmit="return updateProfile();">
+                            <label for="first_name" class="sr-only">First Name</label>
+                            <input type="text" id="first_name" class="form-control" placeholder="First Name" autofocus>
+                    
+                            <label for="last_name" class="sr-only">Last Name</label>
+                            <input type="text" id="last_name" class="form-control" placeholder="Last Name" autofocus>
+                    
+                            <label for="gender" class="sr-only">Gender</label>
+                            <input type="text" id="gender" class="form-control" placeholder="Gender">
+
+                            <label for="dob" class="sr-only">Date of birth</label>
+                            <input type="date" id="dob" class="form-control" placeholder="Date of birth">
+
+                            <label for="profile" class="sr-only">Profile Photo</label>
+                            <input type="file" id="profile" class="form-control-file" placeholder="Profile photo">
+                            <br>
+                            <br>
+                            <button class="btn btn-lg btn-primary btn-block" type="submit">Update Profile</button>
+                        </form>
+                </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
 
 <script>
     const token = isLogedIn();
@@ -34,23 +76,58 @@
         profile = `
             <div class="row">
                 <div class="col"> 
-                    <img src="${img}" style="width: 100%;" class="rounded" alt="Profile Place holder">
-                    <button type="button" class="btn btn-light">Upload</button>
+                    <img src="${img}" style="width: 100%;" class="rounded" alt="${data.username} Profile image">
                 </div>
                 <div class="col">
                     <p>Email: ${data.email}</p>
                     <p>Username: ${data.username}</p>
                     <p>First Name: ${data.first_name}</p>
-                    <p>sLast Name: ${data.last_name}</p>
+                    <p>Last Name: ${data.last_name}</p>
                     <p>Gender: ${data.gender}</p>
                     <p>Date of Birth: ${data.dob}</p>
-                    <button type="button" class="btn btn-light">Edit</button>
+                    <button type="button" class="btn btn-light" data-toggle="modal" data-target="#exampleModal">Edit</button>
 
                 </div>
             </div>
         `
         elmById('content').innerHTML = profile;
     });
+
+    const updateProfile = () => {
+        const data = new FormData();
+
+        const fname = elmById('first_name').value;
+        const lname = elmById('last_name').value;
+        const gender = elmById('gender').value;
+        const dob = elmById('dob').value;
+        const photo = elmById('profile').files[0]
+
+        if (fname) {
+            data.append('first_name', fname);
+        }
+
+        if (lname) {
+            data.append('last_name', lname);
+        }
+
+        if(gender) {
+            data.append('gender',gender);
+        }
+
+        if(dob) {
+            data.append('dob',  dob);
+        }
+
+        if(photo) {
+            data.append('profile_img',  photo);
+        }
+
+        put(baseUrl + 'profile/?format=json', data, token).then(data => {
+            location.reload();
+        })
+
+        return false;
+    }
 
    
 </script>

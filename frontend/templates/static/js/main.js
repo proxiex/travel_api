@@ -14,8 +14,6 @@ const post = async (url, data, token=null) => {
         });
     }
 
-    console.log('00000000', headers)
-
     const response = await fetch(url, {
         credentials: 'same-origin',
         method: 'POST',
@@ -44,6 +42,27 @@ const get = async (url, token = null) => {
         method: 'GET',
         headers,
     });
+    return await response.json();
+}
+
+
+const put = async (url, data, token=null) => {
+    let options;
+
+    if (token !== null) {
+        options = {
+            method: 'PUT',
+            body: data,
+            headers: new Headers({
+                'Accept': '*/*',
+                'Authorization': 'JWT ' + token
+            })
+        }
+    }
+
+    delete options.headers['Content-Type'];
+
+    const response = await fetch(url, options);
     return await response.json();
 }
 
