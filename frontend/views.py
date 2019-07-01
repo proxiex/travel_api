@@ -26,3 +26,8 @@ def registration(request):
 def booking(request):
     """Booking page."""
     return render(request, 'booking.html')
+
+
+def profile(request):
+    """User profile page."""
+    return render(request, 'profile.html')
