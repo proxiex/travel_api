@@ -41,7 +41,4 @@ urlpatterns = [
     path('api/v1/', include(router.urls)),
     path('api/v1/', include('flights.urls')),
     path('api-docs/', schema_view)
-]
-
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
