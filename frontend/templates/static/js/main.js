@@ -14,8 +14,6 @@ const post = async (url, data, token=null) => {
         });
     }
 
-    console.log('00000000', headers)
-
     const response = await fetch(url, {
         credentials: 'same-origin',
         method: 'POST',
