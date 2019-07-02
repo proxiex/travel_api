@@ -1,0 +1,57 @@
+
+{% extends 'base.html' %}
+
+{% load humanize %}
+
+{% load static %}
+
+{% block title %} Profile Page. {% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/form.css' %}">
+<div class="container">
+        <div id="content">
+        </div>
+    {% include 'partials/_footer.html' %}
+</div>
+
+<script>
+    const token = isLogedIn();
+
+    if (!token) {
+        alert('Please loging to continue')
+        window.location = '../login'
+    }
+
+    get(baseUrl + 'profile/?format=json', token).then(data => {
+        data = data[0]
+        if(data.profile_img === null) {
+            img = "{% static 'img/profile.png' %}"
+        } else {
+            img =  data.profile_img
+        }
+
+        profile = `
+            <div class="row">
+                <div class="col"> 
+                    <img src="${img}" style="width: 100%;" class="rounded" alt="Profile Place holder">
+                    <button type="button" class="btn btn-light">Upload</button>
+                </div>
+                <div class="col">
+                    <p>Email: ${data.email}</p>
+                    <p>Username: ${data.username}</p>
+                    <p>First Name: ${data.first_name}</p>
+                    <p>sLast Name: ${data.last_name}</p>
+                    <p>Gender: ${data.gender}</p>
+                    <p>Date of Birth: ${data.dob}</p>
+                    <button type="button" class="btn btn-light">Edit</button>
+
+                </div>
+            </div>
+        `
+        elmById('content').innerHTML = profile;
+    });
+
+   
+</script>
+{% endblock %}

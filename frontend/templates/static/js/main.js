@@ -1,4 +1,4 @@
-const baseUrl = 'http://127.0.0.1:8000/api/v1/'
+const baseUrl = 'https://syne-travel.herokuapp.com/api/v1/'
 
 const post = async (url, data, token=null) => {
     let headers;
