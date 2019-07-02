@@ -21,3 +21,8 @@ def login(request):
 def registration(request):
     """Registration page."""
     return render(request, 'registration.html')
+
+
+def booking(request):
+    """Booking page."""
+    return render(request, 'booking.html')

@@ -24,6 +24,7 @@
   
     {% include 'partials/_footer.html' %}
     <script>
+        // get search result
         const urlParams = new URLSearchParams(window.location.search);
         const to_location = urlParams.get('to_location');
         const from_location = urlParams.get('from_location');
@@ -70,7 +71,7 @@
                             <h5 class="card-title">N${res.price}</h5>
                             <h6 class="card-subtitle mb-2 text-muted">Depature Time:<br> ${dep_time.toString().substring(4, 25)}</h6><br>
                             <h6 class="card-subtitle mb-2 text-muted">Arrival Time: <br>${arr_time.toString().substring(4, 25)}</h6>
-                            <a href="../booking/?flight=${res.id}" class="card-link">Book Flight</a>
+                            <a onclick="bookFlight(${res.id})" style="cursor: pointer;" class="card-link">Book Flight</a>
                         </div>
                     </div>`
                 
@@ -78,6 +79,24 @@
                 elmById('details').innerHTML = details;
             }
         }
+
+        // book flight
+        const bookFlight = (flight) => {
+            const token = isLogedIn();
+
+            if (!token) {
+                window.localStorage.setItem('from', '/booking/');
+                window.localStorage.setItem('flight', flight);    
+                alert('Please login to continue!');
+                window.location = '../login/';
+            };
+
+            const res = post(baseUrl+'booking/?format=json', {flight, 'booked': true}, token);
+            alert('Flight has been booked succesfully!');
+            window.location = '../booking/';
+
+        }
+
     </script>
   </div>
 {% endblock %}
