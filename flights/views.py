@@ -121,18 +121,31 @@ class SearchFlight(generics.ListCreateAPIView):
 
 
 @api_view(['GET'])
-@permission_classes((IsAuthenticated, ))
+@permission_classes((permissions.IsSuperUserOrReadOnly, ))
 def report(request):
     """Booking Report Viewset."""
     start_date = request.query_params.get('start_date')
     end_date = request.query_params.get('end_date')
 
     if start_date and end_date:
-        bg_job(start_date, end_date, request.user)
 
-        return Response(
-            data={'message': 'Your request is processing, once your report is ready you will get an email notification!'},
-            status=status.HTTP_200_OK)
+        bookings = models.Booking.objects.filter(
+            created_at__gte=start_date,
+            created_at__lte=end_date,
+            # booked=True
+        )
+
+        if len(bookings) > 10:
+            bg_job(start_date, end_date, request.user, bookings)
+
+            return Response(
+                data={'message': 'Your request is processing, once your report is ready you will get an email notification!'},
+                status=status.HTTP_200_OK)
+        else:
+            return Response(
+                data=serializers.ReportSerializer(bookings, many=True).data,
+                status=status.HTTP_200_OK
+            )
     else:
         return Response(
             data={

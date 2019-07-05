@@ -1,25 +1,29 @@
 """Flight bkackground job module."""
 
 from flights.helpers.decorators import start_backgroun_job
-from .models import Booking
 from .helpers.email import email_booking_report
 import csv
 
 
 @start_backgroun_job
-def bg_job(start_date, end_date, user):
+def bg_job(start_date, end_date, user, bookings):
     """Background job."""
-    bookings = Booking.objects.filter(
-        user=user,
-        created_at__gte=start_date,
-        created_at__lte=end_date,
-        booked=True
-    )
-    file_name = f'{user.username}_booking_report.csv'
+    file_name = f'{start_date}_{end_date}_booking_report.csv'
     with open(file_name, 'w') as booking_report:
         report = csv.writer(booking_report, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+        report.writerow([
+            'Username',
+            'Email',
+            'Flight number',
+            'From',
+            'To',
+            'Depature Time',
+            'Arrival Time',
+            'Prince'])
         for booking in bookings:
             report.writerow([
+                booking.user.username,
+                booking.user.email,
                 booking.flight.airline.flight_number,
                 booking.flight.from_location,
                 booking.flight.to_location,

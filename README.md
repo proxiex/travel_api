@@ -36,5 +36,4 @@
 - Postgresql: Relational Database Management System 
 
 ## API Documentation
- - Local deplooyment http://127.0.0.1:8000/api-docs
- - https://syne-travel.herokuapp.com/api-docs/
+ - https://documenter.getpostman.com/view/3104569/SVSBwYfC
